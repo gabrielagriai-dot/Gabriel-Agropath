@@ -1,6 +1,8 @@
 import streamlit as st
 import google.generativeai as genai
-from google.generativeai.types import HarmCategory, HarmBlockThreshold 
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
+
+
 st.set_page_config(page_title="Gabriel Agro AI", page_icon="🌱", layout="centered")
 
 st.title("🌱 Gabriel Agro AI")
@@ -17,7 +19,7 @@ if not API_KEY:
 
 
 genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel("gemini-3.8-flash")
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 
 user_query = st.text_input(
@@ -36,7 +38,6 @@ Query: {user_query}
     st.write("🔍 **Cloud AI Diagnosis & Recommendation:**")
     
     try:
-    
         safety_settings = {
             HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
             HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
@@ -44,7 +45,9 @@ Query: {user_query}
             HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
         }
         
+      
         response = model.generate_content(prompt, safety_settings=safety_settings)
         st.write(response.text)
     except Exception as e:
         st.error(f"An error occurred while connecting to the AI service: {e}")
+
